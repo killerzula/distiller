@@ -485,6 +485,33 @@ def activation_channels_apoz(activation):
         raise ValueError("activation_channels_apoz: Unsupported shape: ".format(activation.shape))
     return 100 - featuremap_apoz_mat.mean(dim=0).mul(100).cpu()
 
+def log_compression_schedule(path_, logger_, prune_comments = True, prune_empty_lines = False):
+    """Reads the yaml file at path 'path_' and logs it in 'logger_'
+
+    Args:
+        path_ (str): Path to the yaml file describing the compression schedule.
+        logger_ (Logger object): Logger to be used to log the compression schedule.
+        prune_comments (bool, optional): Flag to control logging of comments present in the yaml file. Defaults to True.
+        prune_empty_lines (bool, optional): Flag to contorl logging of empty lines present in the yaml file. Defaults to False.
+    """
+    with open(path_, 'r') as sched_dict:
+        lines = sched_dict.read().split('\n')
+        logger_.info('\nCOMPRESSION SCHEDULE BEGIN')
+        for line in lines:
+            if not prune_comments:
+                if not prune_empty_lines:
+                    logger_.info(line)
+                else:
+                    if not line == '':
+                        logger_.info(line)
+            else:
+                if not line.lstrip().startswith('#'): # If lstrip() is used to skip comments with leading whitespaces
+                    if not prune_empty_lines:
+                        logger_.info(line)
+                    else:
+                        if not line == '':
+                            logger_.info(line)
+        logger_.info('COMPRESSION SCHEDULE END\n')
 
 def log_training_progress(stats_dict, params_dict, epoch, steps_completed, total_steps, log_freq, loggers):
     """Log information about the training progress, and the distribution of the weight tensors.
