@@ -505,7 +505,7 @@ def log_compression_schedule(path_, logger_, prune_comments = True, prune_empty_
                     if not line == '':
                         logger_.info(line)
             else:
-                if not line.lstrip().startswith('#'): # If lstrip() is used to skip comments with leading whitespaces
+                if not line.lstrip().startswith('#'): # lstrip() is used to skip comments with leading whitespaces
                     if not prune_empty_lines:
                         logger_.info(line)
                     else:
