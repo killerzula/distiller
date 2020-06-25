@@ -145,6 +145,7 @@ def file_config(model, optimizer, filename, scheduler=None, resumed_epoch=None):
         msglogger.info('Reading compression schedule from: %s', filename)
         try:
             sched_dict = distiller.utils.yaml_ordered_load(stream)
+            distiller.utils.log_compression_schedule(logger_ = msglogger, path_ = filename)
             return dict_config(model, optimizer, sched_dict, scheduler, resumed_epoch)
         except yaml.YAMLError as exc:
             print("\nFATAL parsing error while parsing the schedule configuration file %s" % filename)
