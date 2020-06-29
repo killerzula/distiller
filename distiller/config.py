@@ -51,6 +51,7 @@ app_cfg_logger = logging.getLogger("app_cfg")
 
 def dict_config(model, optimizer, sched_dict, scheduler=None, resumed_epoch=None):
     app_cfg_logger.debug('Schedule contents:\n' + json.dumps(sched_dict, indent=2))
+    msglogger.info('Schedule contents:\n' + json.dumps(sched_dict, indent=2))
 
     if scheduler is None:
         scheduler = distiller.CompressionScheduler(model)
